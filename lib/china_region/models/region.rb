@@ -11,6 +11,16 @@ module ChinaRegion
       compacted = Match.compact(Match.split(code))
       compacted.take(compacted.size - 1).join.ljust(6,'0')
     end
+
+    def parent
+      @parent ||= self.class.get parent_code
+    end
+
+    def children
+      children_type = Type.all[Type.index_of(self.type)+1]
+      return [] unless children_type
+      send(children_type.name.pluralize)
+    end
     # 补全 code 到 12 位
     # example:
     #  110000 => 110000000000

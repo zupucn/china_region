@@ -6,17 +6,7 @@ module ChinaRegion
       class Region < ::ActiveRecord::Base
         self.table_name = ChinaRegion.config.table_name
 
-        def parent
-          @parent ||= Region.find_by_code parent_code
-        end
-
-        def children
-          children_type = Type.all[Type.index_of(self.type)+1]
-          return [] unless children_type
-          send(children_type.name.pluralize)
-        end
-
-        def get(code)
+        def self.get(code)
           self.class.find_by_code code
         end
 
