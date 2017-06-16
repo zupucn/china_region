@@ -1,0 +1,5 @@
+XSym
+0066
+48df66386f626c17e0acd522b22d805f
+../../lib/generators/china_region/migration/templates/migration.rb
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
