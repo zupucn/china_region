@@ -1,10 +1,11 @@
-
 module ChinaRegion
   module ORM
     module Redis
       class Region
         HASH_KEY = "china_region/regions"
+
         attr_accessor :name, :code
+
         def initialize(name:, code:)
           @name = name
           @code = code
@@ -50,6 +51,20 @@ module ChinaRegion
         def self.client
           ChinaRegion.config.redis
         end
+
+        def self.db_exists?
+          client.exists(HASH_KEY)
+        end
+
+        private
+          def self.init_db
+            require "csv"
+            client.pipelined do
+              CSV.foreach(File.join(ChinaRegion.root,"data","db.csv"), headers: true, encoding: "utf-8") do |row|
+                client.hset(HASH_KEY, row['code'], row['name'])
+              end
+            end
+          end
       end
     end
   end
