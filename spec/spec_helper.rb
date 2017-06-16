@@ -1,6 +1,8 @@
 $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
 require "china_region"
 require "database_cleaner"
+
+ChinaRegion::Config.orm = (ENV['CR_ORM'] || :active_record)
 case ChinaRegion::Config.orm
 when :active_record
   require 'active_record'
@@ -8,6 +10,10 @@ when :active_record
 
   ActiveRecord::Base.establish_connection(:adapter => 'sqlite3', :database => ':memory:')
   ActiveRecord::Migrator.migrate(File.expand_path('../migrations', __FILE__))
+when :redis
+  require 'redis'
+  ChinaRegion.config.redis = Redis.new(:url => ENV['CR_REDIS_URL'])
+  DatabaseCleaner[:redis, {:connection => ENV['CR_REDIS_URL']} ]
 end
 
 RSpec.configure do |config|

@@ -4,7 +4,7 @@ module ChinaRegion
   # Class used to initialize configuration object.
   class Config
     include ::Singleton
-    attr_accessor :enabled, :table_name
+    attr_accessor :table_name, :redis, :memcached
 
     @@orm = :active_record
 
@@ -15,7 +15,7 @@ module ChinaRegion
     # Evaluates given block to provide DSL configuration.
     # @example Initializer for Rails
     #   ChinaRegion::Config.set do
-    #     orm :mongo_mapper
+    #     orm :redis
     #     table_name "regions"
     #   end
     def self.set &block
@@ -49,6 +49,11 @@ module ChinaRegion
       # @see Config#orm
       def orm(orm = nil)
         @orm = (orm ? orm.to_sym : false) || @orm
+      end
+      # Sets the redis
+      # for the model
+      def redis(redis = nil)
+        ChinaRegion.config.redis = options
       end
 
       # Sets the table_name
