@@ -21,4 +21,8 @@ module ChinaRegion
     require "china_region/orm/#{orm.to_s}"
     "ChinaRegion::ORM::#{orm.to_s.camelize}::#{model}".constantize
   end
+
+  def self.root
+    File.expand_path('../..',__FILE__)
+  end
 end

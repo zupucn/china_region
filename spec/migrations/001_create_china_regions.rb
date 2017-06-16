@@ -1,5 +1,16 @@
-XSym
-0066
-48df66386f626c17e0acd522b22d805f
-../../lib/generators/china_region/migration/templates/migration.rb
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+class CreateChinaRegions < ActiveRecord::Migration[4.2]
+  def self.up
+    create_table :china_regions do |t|
+      t.string :code, null: false
+      t.string :name
+      t.timestamps
+    end
+
+    add_index :china_regions, :code, unique: true
+    add_index :china_regions, :name
+  end
+
+  def self.down
+    drop_table :china_regions
+  end
+end
