@@ -1,0 +1,9 @@
+machine:
+  timezone: Asia/Shanghai
+  ruby:
+    version: 2.3.3
+  environment:
+    CR_ORM: active_record
+database:
+  override:
+    - echo "Skipping DB section."
