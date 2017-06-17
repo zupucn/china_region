@@ -56,15 +56,15 @@ module ChinaRegion
           client.exists(HASH_KEY)
         end
 
-        private
-          def self.init_db
-            require "csv"
-            client.pipelined do
-              CSV.foreach(File.join(ChinaRegion.root,"data","db.csv"), headers: true, encoding: "utf-8") do |row|
-                client.hset(HASH_KEY, row['code'], row['name'])
-              end
+
+        def self.init_db
+          require "csv"
+          client.pipelined do
+            CSV.foreach(File.join(ChinaRegion.root,"data","db.csv"), headers: true, encoding: "utf-8") do |row|
+              client.hset(HASH_KEY, row['code'], row['name'])
             end
           end
+        end
       end
     end
   end
