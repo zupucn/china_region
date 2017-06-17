@@ -1,6 +1,8 @@
 $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
-require "china_region"
 require "database_cleaner"
+require 'simplecov'
+SimpleCov.start
+require "china_region"
 
 ChinaRegion::Config.orm = (ENV['CR_ORM'] || :active_record)
 case ChinaRegion::Config.orm

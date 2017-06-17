@@ -1,4 +1,4 @@
-# ChinaRegion
+# ChinaRegion [![CircleCI](https://circleci.com/gh/zupucn/china_region.svg?style=shield)](https://circleci.com/gh/zupucn/china_region) [![Code Climate](https://codeclimate.com/github/zupucn/china_region/badges/gpa.svg)](https://codeclimate.com/github/zupucn/china_region) [![Test Coverage](https://codeclimate.com/github/zupucn/china_region/badges/coverage.svg)](https://codeclimate.com/github/zupucn/china_region/coverage)
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/china_region`. To experiment with that code, run `bin/console` for an interactive prompt.
 
