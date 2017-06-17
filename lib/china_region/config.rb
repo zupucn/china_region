@@ -20,7 +20,7 @@ module ChinaRegion
     #   end
     def self.set &block
       b = Block.new
-      b.instance_eval &block
+      b.instance_eval(&block)
       @@orm = b.orm unless b.orm.nil?
       instance
       instance.instance_variable_set(:@enabled,    b.enabled)   unless  b.enabled.nil?
