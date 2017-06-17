@@ -2,6 +2,9 @@ module ChinaRegion
   module ORM
     module Redis
       class Region
+        extend ActiveModel::Callbacks
+        define_model_callbacks :save
+        before_save :compact_code
         HASH_KEY = "china_region/regions"
 
         attr_accessor :name, :code
@@ -12,9 +15,9 @@ module ChinaRegion
         end
 
         def self.get(code)
-          name = client.hget(HASH_KEY, code)
+          name = client.hget(HASH_KEY, Match.short_code(code))
           return nil unless name
-          new(name: name, code: code)
+          new(name: name, code: Match.short_code(code))
         end
 
         %w(city district street community).each do | method_name |
@@ -23,15 +26,11 @@ module ChinaRegion
             return [] if type < target_type
             diff = target_type.number_count - type.number_count
             [].tap do | result |
-              client.hscan_each HASH_KEY, match: "#{short_code}#{'?'*diff}".ljust(6,'0') do | code, name |
+              client.hscan_each HASH_KEY, match: "#{code}#{'?'*diff}" do | code, name |
                 result << self.class.new(name: name, code: code) unless code == self.code
               end
             end
           end
-        end
-
-        def ==(other)
-          code == other.code
         end
 
         def self.create(name:,code:)
@@ -40,7 +39,9 @@ module ChinaRegion
 
         def save
           tap do
-            client.hset(HASH_KEY, @code, @name)
+            run_callbacks :save do
+              client.hset(HASH_KEY, @code, @name)
+            end
           end
         end
 
@@ -61,10 +62,15 @@ module ChinaRegion
           require "csv"
           client.pipelined do
             CSV.foreach(File.join(ChinaRegion.root,"data","db.csv"), headers: true, encoding: "utf-8") do |row|
-              client.hset(HASH_KEY, row['code'], row['name'])
+              client.hset(HASH_KEY, Match.short_code(row['code']), row['name'])
             end
           end
         end
+
+        private
+          def compact_code
+            self.code = Match.short_code(code)
+          end
       end
     end
   end
