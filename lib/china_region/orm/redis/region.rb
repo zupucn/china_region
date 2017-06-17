@@ -11,13 +11,13 @@ module ChinaRegion
 
         def initialize(name:, code:)
           @name = name
-          @code = code
+          @code = Match.short_code(code)
         end
 
         def self.get(code)
           name = client.hget(HASH_KEY, Match.short_code(code))
           return nil unless name
-          new(name: name, code: Match.short_code(code))
+          new(name: name, code: code)
         end
 
         %w(city district street community).each do | method_name |
@@ -27,7 +27,18 @@ module ChinaRegion
             diff = target_type.number_count - type.number_count
             [].tap do | result |
               client.hscan_each HASH_KEY, match: "#{code}#{'?'*diff}" do | code, name |
-                result << self.class.new(name: name, code: code) unless code == self.code
+                result << self.class.new(name: name, code: code)
+              end
+            end
+          end
+        end
+
+        %w(province city district street community).each do | method_name |
+          define_singleton_method method_name.pluralize do
+            type = Type.by_name(method_name)
+            [].tap do | result |
+              client.hscan_each HASH_KEY, match: "#{'?'*type.number_count}" do | code, name |
+                result << new(name: name, code: code)
               end
             end
           end

@@ -18,6 +18,4 @@ describe ChinaRegion::Config do
     expect(instance.redis).to eq "redis"
     expect(instance.table_name).to eq "table name"
   end
-
-
 end

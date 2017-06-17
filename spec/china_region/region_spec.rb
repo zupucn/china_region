@@ -40,6 +40,14 @@ describe ChinaRegion::Region do
     expect(street.children).to eq [community]
   end
 
+  it "has regions" do
+    expect(ChinaRegion::Region.provinces).to eq [province]
+    expect(ChinaRegion::Region.cities).to eq [city]
+    expect(ChinaRegion::Region.districts).to eq [district]
+    expect(ChinaRegion::Region.streets).to eq [street]
+    expect(ChinaRegion::Region.communities).to eq [community]
+  end
+
   describe ChinaRegion::Query do
     it "has a region for specify code" do
       expect(ChinaRegion::Region.regions_of("430000")).to eq [city]

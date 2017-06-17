@@ -21,6 +21,13 @@ module ChinaRegion
           end
         end
 
+        %w(province city district street community).each do | method_name |
+          define_singleton_method method_name.pluralize do
+            type = Type.by_name(method_name)
+            where("code like ?", "#{'_'*type.number_count}")
+          end
+        end
+
         private
           def compact_code
             self.code = Match.short_code(code)
