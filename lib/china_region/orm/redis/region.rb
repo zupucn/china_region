@@ -17,13 +17,13 @@ module ChinaRegion
           new(name: name, code: code)
         end
 
-        %w(city district street community).each do | name |
-          define_method name.pluralize do
-            target_type = Type.by_name(name)
+        %w(city district street community).each do | method_name |
+          define_method method_name.pluralize do
+            target_type = Type.by_name(method_name)
             return [] if type < target_type
             diff = target_type.number_count - type.number_count
             [].tap do | result |
-              client.hscan_each HASH_KEY, match: "#{short_code}#{'?'*diff}".ljust(6,'0') do | code, name|
+              client.hscan_each HASH_KEY, match: "#{short_code}#{'?'*diff}".ljust(6,'0') do | code, name |
                 result << self.class.new(name: name, code: code) unless code == self.code
               end
             end
