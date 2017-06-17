@@ -15,6 +15,6 @@ database:
     - echo "Skipping DB section."
 test:
   pre:
-    - cc-test-reporter before-build
+    - ./cc-test-reporter before-build
   override:
-    - bundle exec rspec; cc-test-reporter after-build --exit-code $?
+    - bundle exec rspec; ./cc-test-reporter after-build --exit-code $?
