@@ -53,7 +53,7 @@ module ChinaRegion
       # Sets the redis
       # for the model
       def redis(redis = nil)
-        ChinaRegion.config.redis = options
+        ChinaRegion.config.redis = redis
       end
 
       # Sets the table_name
