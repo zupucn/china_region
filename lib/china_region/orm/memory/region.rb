@@ -1,10 +1,11 @@
+require 'benchmark'
 module ChinaRegion
   module ORM
     module Memory
       # The Region model containing
       # details about recorded region.
       class Region
-        @@regions_index = Set.new
+        @@regions_index = []
         @@regions = {}
 
         attr_accessor :name, :code
@@ -27,7 +28,7 @@ module ChinaRegion
         def save
           if ChinaRegion::Match.match? @code
             @@regions[@code] = @name
-            @@regions_index.add @code
+            @@regions_index.push @code
             self
           else
             false
@@ -39,12 +40,10 @@ module ChinaRegion
             target_type = Type.by_name(method_name)
             return [] if type < target_type
             diff = target_type.number_count - type.number_count
+            clone_regions_index = @@regions_index
+            regex = /^#{code}\d{#{diff}}$/
             [].tap do |result|
-              clone_regions_index = @@regions_index.clone
-              clone_regions_index.select! do |index_code|
-                /^#{code}\d{#{diff}}$/ =~ index_code
-              end
-              clone_regions_index.each do |index_code|
+              clone_regions_index.grep(regex) do |index_code|
                 result << self.class.new(code: index_code, name: @@regions[index_code])
               end
             end
@@ -54,13 +53,11 @@ module ChinaRegion
         %w(province city district street community).each do |method_name|
           define_singleton_method method_name.pluralize do
             type = Type.by_name(method_name)
+            clone_regions_index = @@regions_index
+            regex = /^\d{#{type.number_count}}$/
             [].tap do |result|
-              clone_regions_index = @@regions_index.clone
-              clone_regions_index.select! do |code|
-                /^\d{#{type.number_count}}$/ =~ code
-              end
-              clone_regions_index.each do |code|
-                result << new(code: code, name: @@regions[code])
+              clone_regions_index.grep(regex) do |index_code|
+                result << new(code: index_code, name: @@regions[index_code])
               end
             end
           end
@@ -80,7 +77,7 @@ module ChinaRegion
           CSV.foreach(File.join(ChinaRegion.root,"data","db.csv"), headers: true, encoding: "utf-8") do |row|
             short_code = Match.short_code(row['code'])
             @@regions[short_code] = row['name']
-            @@regions_index.add(short_code)
+            @@regions_index.push(short_code)
           end
         end
       end
