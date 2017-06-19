@@ -11,6 +11,7 @@ module ChinaRegion
   autoload :Config
   autoload :VERSION
 
+  load 'china_region/tasks/seed.rake'
   # Returns ChinaRegion's configuration object.
   def self.config
     @@config ||= ChinaRegion::Config.instance
