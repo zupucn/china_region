@@ -20,9 +20,9 @@ end
 
 RSpec.configure do |config|
   config.before do
-    DatabaseCleaner.start
+    # DatabaseCleaner.start
   end
   config.after do
-    DatabaseCleaner.clean
+    # DatabaseCleaner.clean
   end
 end
