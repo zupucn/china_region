@@ -4,10 +4,12 @@ module ChinaRegion
       # The Region model containing
       # details about recorded region.
       class Region < ::ActiveRecord::Base
+        before_save :compact_code
+
         self.table_name = ChinaRegion.config.table_name
 
         def self.get(code)
-          self.class.find_by_code code
+          find_by_code(Match.short_code(code))
         end
 
         %w(city district street community).each do | name |
@@ -15,9 +17,21 @@ module ChinaRegion
             target_type = Type.by_name(name)
             return [] if type < target_type
             diff = target_type.number_count - type.number_count
-            self.class.where.not(id: id).where("code like ?", "#{short_code}#{'_'*diff}".ljust(6,'0'))
+            self.class.where("code like ?", "#{code}#{'_'*diff}")
           end
         end
+
+        %w(province city district street community).each do | method_name |
+          define_singleton_method method_name.pluralize do
+            type = Type.by_name(method_name)
+            where("code like ?", "#{'_'*type.number_count}")
+          end
+        end
+
+        private
+          def compact_code
+            self.code = Match.short_code(code)
+          end
       end
     end
   end

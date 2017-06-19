@@ -18,7 +18,7 @@ module ChinaRegion
 
   def self.inherit_orm(model="Region")
     orm = ChinaRegion.config.orm
-    require "china_region/orm/#{orm.to_s}"
+    require "china_region/orm/#{orm}"
     "ChinaRegion::ORM::#{orm.to_s.camelize}::#{model}".constantize
   end
 

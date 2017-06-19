@@ -4,12 +4,12 @@ module ChinaRegion
     include Query
 
     def type
-      @type ||= Match.type_of(short_code)
+      @type ||= Match.type_of(code)
     end
     # 获取父级行政区的 code
     def parent_code
       compacted = Match.compact(Match.split(code))
-      compacted.take(compacted.size - 1).join.ljust(6,'0')
+      compacted.take(compacted.size - 1).join
     end
 
     def parent
@@ -17,22 +17,19 @@ module ChinaRegion
     end
 
     def children
-      children_type = Type.all[Type.index_of(self.type)+1]
+      children_type = Type.all[Type.all.index(self.type)+1]
       return [] unless children_type
       send(children_type.name.pluralize)
     end
-    # 补全 code 到 12 位
+    # 补全 code
     # example:
-    #  110000 => 110000000000
+    #  11 => 110000
     def full_code
-      code.ljust(12,'0')
+      code.ljust(6, '0')
     end
-    # 除去了补全 0 的 code
-    # example:
-    #   430000 => 43
-    #   431000 => 4310
-    def short_code
-      Match.compact(Match.split(code)).join
+
+    def ==(other)
+      code == other.code
     end
   end
 end

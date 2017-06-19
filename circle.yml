@@ -4,6 +4,17 @@ machine:
     version: 2.3.3
   environment:
     CR_ORM: active_record
+    CC_TEST_REPORTER_ID: 27fe6ae7e64f12db095eaff3b0ea191b23bb294663ca4aa9fb95a7d60456a1ed
+
+dependencies:
+  post:
+    - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+    - chmod +x ./cc-test-reporter
 database:
   override:
     - echo "Skipping DB section."
+test:
+  pre:
+    - ./cc-test-reporter before-build
+  override:
+    - bundle exec rspec; ./cc-test-reporter after-build --exit-code $?
