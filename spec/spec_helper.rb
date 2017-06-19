@@ -4,7 +4,7 @@ require 'simplecov'
 SimpleCov.start
 require "china_region"
 
-ChinaRegion.config.orm = (ENV['CR_ORM'].to_sym || :active_record)
+ChinaRegion.config.orm = (ENV['CR_ORM'] || :active_record).to_sym
 case ChinaRegion.config.orm
 when :active_record
   require 'active_record'

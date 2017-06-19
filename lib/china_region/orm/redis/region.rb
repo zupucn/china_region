@@ -72,7 +72,7 @@ module ChinaRegion
           client.hlen HASH_KEY
         end
 
-        def self.init_db(*args)
+        def self.init_db(*)
           require "csv"
           client.pipelined do
             CSV.foreach(File.join(ChinaRegion.root,"data","db.csv"), headers: true, encoding: "utf-8") do |row|
