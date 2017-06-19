@@ -11,16 +11,6 @@ module ChinaRegion
       compacted = Match.compact(Match.split(code))
       compacted.take(compacted.size - 1).join
     end
-
-    def parent
-      @parent ||= self.class.get parent_code
-    end
-
-    def children
-      children_type = Type.all[Type.all.index(self.type)+1]
-      return [] unless children_type
-      send(children_type.name.pluralize)
-    end
     # 补全 code
     # example:
     #  11 => 110000
