@@ -20,9 +20,14 @@ end
 
 RSpec.configure do |config|
   config.before do
-    DatabaseCleaner.start
+    DatabaseCleaner.start unless ChinaRegion.config.orm == :memory
   end
   config.after do
-    DatabaseCleaner.clean
+    case ChinaRegion.config.orm
+    when :memory
+      ChinaRegion::ORM::Memory::Region.clear
+    else
+      DatabaseCleaner.clean
+    end
   end
 end
