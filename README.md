@@ -1,6 +1,6 @@
 # ChinaRegion [![CircleCI](https://circleci.com/gh/zupucn/china_region.svg?style=shield)](https://circleci.com/gh/zupucn/china_region) [![Code Climate](https://codeclimate.com/github/zupucn/china_region/badges/gpa.svg)](https://codeclimate.com/github/zupucn/china_region) [![Test Coverage](https://codeclimate.com/github/zupucn/china_region/badges/coverage.svg)](https://codeclimate.com/github/zupucn/china_region/coverage)
 
-中国的城市数据包,包含省份、城市、地区、街道、社区。数据来自中华人名共和国国家统计局 [http://www.stats.gov.cn/](http://www.stats.gov.cn/)，数据条目数：657,598。目前支持 Redis 与 ActvieRecord 数据存储。此 Gem 不包含 UI 实现，仅提供数据。
+中国的城市数据包,包含省份、城市、地区、街道、社区。数据来自中华人民共和国国家统计局 [http://www.stats.gov.cn/](http://www.stats.gov.cn/)，数据条目数：657,598。目前支持 Redis 与 ActvieRecord 数据存储。此 Gem 不包含 UI 实现，仅提供数据。
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -13,9 +13,6 @@ And then execute:
 
     $ bundle
 
-Or install it yourself as:
-
-    $ gem install china_region
 
 ## Database setup
 By default china_region uses Active Record. If you want to use Redis as your backend, create an initializer file in your Rails application with the corresponding code inside:
@@ -36,7 +33,7 @@ rails db:migrate
 ```ruby
 rails china_region:seed
 ```
-NOTE: 根据数据库的不同执行时间将有所差异，请**不要**中途终止导入命令
+NOTE: 根据数据库的不同执行时间将有所差异，这里可能执行需要几分钟，数据为 65W+ ，请**不要**中途终止导入命令
 ## Usage
 
 ```ruby
