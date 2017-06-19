@@ -27,7 +27,6 @@ ChinaRegion::Config.set do
   redis Redis.new(:host => "10.0.1.1", :port => 6380, :db => 15)
 end
 ```
-then
 ### ActiveRecord
 ```ruby
 rails g china_region:migration
@@ -42,7 +41,9 @@ NOTE: 根据数据库的不同执行时间将有所差异，请**不要**中途�
 
 ```ruby
 ChinaRegion::Region.provinces # 获取所有省份, 类似的接口还有 cities、districts、streets、communities
+
 ChinaRegion::Region.cities_of("43") # or ChinaRegion::Region.get("430000") 获取 湖南省的所有城市
+
 ChinaRegion::Region.streets_of("43") # 获取湖南省的所有街道, 跨级获取， 这里不会返回城市数据与区域数据
 # 类似的接口还有 districts_of、 communities_of
 
@@ -53,6 +54,7 @@ region.code
 region.name
 # => "长沙"
 parent = region.parent
+
 parent.code
 # => "43"
 parent.name
@@ -60,7 +62,9 @@ parent.name
 region.children    # 返回该行政级别的下一级别的所有区域
 
 region.districts   # 获取长沙市的所有区域、比如 芙蓉区、雨花区...
+
 region.streets     # 获取长沙市的所有街道
+
 region.communities # 获取长沙市所有社区
 ```
 
