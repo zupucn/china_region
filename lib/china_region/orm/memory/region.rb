@@ -66,14 +66,21 @@ module ChinaRegion
           end
         end
 
-        def self.init_data
+        def self.clear
+          @@regions.clear
+          @@regions_index.clear
+        end
+
+        def self.count
+          @@regions.size
+        end
+
+        def self.init_db(*args)
           require "csv"
-          client.pipelined do
-            CSV.foreach(File.join(ChinaRegion.root,"data","db.csv"), headers: true, encoding: "utf-8") do |row|
-              short_code = Match.short_code(row['code'])
-              @@regions[short_code] = row['name']
-              @@regions_index.add(short_code)
-            end
+          CSV.foreach(File.join(ChinaRegion.root,"data","db.csv"), headers: true, encoding: "utf-8") do |row|
+            short_code = Match.short_code(row['code'])
+            @@regions[short_code] = row['name']
+            @@regions_index.add(short_code)
           end
         end
       end
