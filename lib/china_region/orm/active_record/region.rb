@@ -28,6 +28,26 @@ module ChinaRegion
           end
         end
 
+        def self.init_db(batch_size = 500)
+          require "csv"
+          inserts = []
+          CSV.foreach(File.join(ChinaRegion.root,"data","db.csv"), headers: true, encoding: "utf-8").with_index do |row, i|
+            inserts.push "('#{row['code']}','#{row['name']}')"
+            if (i % batch_size == 0)
+              import_data(inserts)
+              inserts.clear
+            end
+          end
+          if inserts.any?
+            import_data(inserts)
+          end
+        end
+
+        def self.import_data(inserts)
+          sql = "INSERT INTO #{ChinaRegion.config.table_name} (code, name) VALUES #{inserts.join(",")}"
+          connection.execute sql
+        end
+
         private
           def compact_code
             self.code = Match.short_code(code)
