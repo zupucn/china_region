@@ -75,7 +75,7 @@ module ChinaRegion
           @@regions.size
         end
 
-        def self.init_db(*args)
+        def self.init_db(*)
           require "csv"
           CSV.foreach(File.join(ChinaRegion.root,"data","db.csv"), headers: true, encoding: "utf-8") do |row|
             short_code = Match.short_code(row['code'])
