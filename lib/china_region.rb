@@ -1,4 +1,5 @@
 require 'active_support'
+require 'rake'
 
 module ChinaRegion
   extend ActiveSupport::Autoload
