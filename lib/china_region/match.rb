@@ -10,7 +10,7 @@ module ChinaRegion
 
     def split(code)
       return [] unless match?(code)
-      code.match(CODE_RULE_REGEX).captures.reject { |c| c.blank?}
+      code.match(CODE_RULE_REGEX).captures.reject { |c| c.size.zero?}
     end
 
     def compact(splited_code_array)

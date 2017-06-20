@@ -32,10 +32,10 @@ module ChinaRegion
           require "csv"
           inserts = []
           CSV.foreach(File.join(ChinaRegion.root,"data","db.csv"), headers: true, encoding: "utf-8").with_index do |row, i|
-            inserts.push "('#{row['code']}','#{row['name']}')"
+            inserts.push "('#{Match.short_code(row['code'])}','#{row['name']}')"
             if (i % batch_size.to_i == 0)
               import_data(inserts)
-              inserts.clear
+              inserts.cleasr
             end
           end
           if inserts.any?

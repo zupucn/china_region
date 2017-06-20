@@ -26,7 +26,7 @@ module ChinaRegion
             return [] if type < target_type
             diff = target_type.number_count - type.number_count
             [].tap do | result |
-              client.hscan_each HASH_KEY, match: "#{code}#{'?'*diff}" do | code, name |
+              client.hscan_each HASH_KEY, match: "#{code}#{'?'*diff}", count: 10000 do | code, name |
                 result << self.class.new(name: name, code: code)
               end
             end
