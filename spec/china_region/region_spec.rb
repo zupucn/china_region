@@ -65,6 +65,6 @@ describe ChinaRegion::Region do
 
   it "could import data from csv" do
     ChinaRegion::Region.init_db
-    expect(ChinaRegion::Region.count).to eq 657598
+    expect(ChinaRegion::Region.count).to eq 699619
   end
 end
