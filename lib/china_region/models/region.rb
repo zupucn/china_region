@@ -8,8 +8,7 @@ module ChinaRegion
     end
     # 获取父级行政区的 code
     def parent_code
-      compacted = Match.compact(Match.split(code))
-      compacted.take(compacted.size - 1).join
+      Match.upper_level(code)
     end
     # 补全 code
     # example:

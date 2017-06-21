@@ -1,9 +1,9 @@
 require "spec_helper"
 
 describe ChinaRegion::Region do
-  describe 'function test' do
+  describe 'Function test' do
     let!(:province){ ChinaRegion::Region.create(code: "43",name: "湖南省") }
-    let!(:city){ ChinaRegion::Region.create(code: "430100", name: "长沙市") }
+    let!(:city){ ChinaRegion::Region.create(code: "4301", name: "长沙市") }
     let!(:district){ ChinaRegion::Region.create(code: "430102", name: "芙蓉区") }
     let!(:street){ ChinaRegion::Region.create(code: "430102003", name: "韭菜园街道") }
     let!(:community){ ChinaRegion::Region.create(code: "430102003003", name: "八一桥社区") }
@@ -51,13 +51,13 @@ describe ChinaRegion::Region do
       end
 
       it "has a region for specify code" do
-        expect(ChinaRegion::Region.regions_of("430000")).to eq [city]
+        expect(ChinaRegion::Region.regions_of("43")).to eq [city]
       end
 
       it "has sub regions for specify code" do
-        expect(ChinaRegion::Region.cities_of("430000")).to eq [city]
-        expect(ChinaRegion::Region.districts_of("430000")).to eq [district]
-        expect(ChinaRegion::Region.communities_of("430000")).to eq [community]
+        expect(ChinaRegion::Region.cities_of("43")).to eq [city]
+        expect(ChinaRegion::Region.districts_of("43")).to eq [district]
+        expect(ChinaRegion::Region.communities_of("43")).to eq [community]
       end
 
     end

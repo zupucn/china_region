@@ -35,7 +35,7 @@ module ChinaRegion
             inserts.push "('#{Match.short_code(row['code'])}','#{row['name']}')"
             if (i % batch_size.to_i == 0)
               import_data(inserts)
-              inserts.cleasr
+              inserts.clear
             end
           end
           if inserts.any?

@@ -34,6 +34,10 @@ module ChinaRegion
           all.select{| t | t.send(method_name) == param }.first
         end
       end
+
+      def by_code(code)
+        by_number_count(code.size)
+      end
     end
   end
 end

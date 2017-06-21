@@ -17,13 +17,6 @@ describe ChinaRegion::Match do
     expect(match.split("410100000000")).to eq %w(41 01 00 000 000)
   end
 
-  it "has correct short_code code" do
-    expect(match.short_code("430000")).to eq "43"
-    expect(match.short_code("430100")).to eq "4301"
-    expect(match.short_code("430102")).to eq "430102"
-    expect(match.short_code("430102003000")).to eq "430102003"
-    expect(match.short_code("430102003003")).to eq "430102003003"
-  end
 
   it "could compact the code" do
     expect(match.compact(%w(43 11 00))).to eq %w(43 11)

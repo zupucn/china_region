@@ -4,6 +4,11 @@ module ChinaRegion
 
     CODE_RULE_REGEX = /^(\d{2})(\d{2}|\d{0}$)(\d{2}|\d{0}$)(\d{3}|\d{0}$)(\d{3}|\d{0})$/
 
+    def upper_level(code)
+      compacted = compact(split(code))
+      compacted.take(compacted.size - 1).join
+    end
+
     def match?(code)
       !!(code =~ CODE_RULE_REGEX)
     end
@@ -14,7 +19,10 @@ module ChinaRegion
     end
 
     def compact(splited_code_array)
-      splited_code_array.reject{ | c | c.to_i.zero? }
+      while(!!splited_code_array.last && splited_code_array.last.to_i.zero?)
+        splited_code_array.pop
+      end
+      splited_code_array
     end
 
     # 除去了补全 0 的 code
@@ -22,11 +30,12 @@ module ChinaRegion
     #   430000 => 43
     #   431000 => 4310
     def short_code(code)
-      compact(split(code)).join
+      code
+  #    compact(split(code)).join
     end
 
     def type_of(code)
-      ChinaRegion::Type.by_number_count(short_code(code).size)
+      ChinaRegion::Type.by_number_count(code.size)
     end
   end
 end
