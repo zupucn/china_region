@@ -9,7 +9,7 @@ module ChinaRegion
     def children
       children_type = Type.all[Type.all.index(self.type)+1]
       return [] unless children_type
-      send(children_type.name.pluralize)
+      @chilren ||= send(children_type.name.pluralize)
     end
 
     module ClassMethods

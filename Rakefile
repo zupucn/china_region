@@ -5,7 +5,7 @@ RSpec::Core::RakeTask.new(:spec)
 
 task :default => :spec
 
-desc 'Run Slim benchmarks! (default parameters slow=false)'
+desc 'Run ChinaRegion benchmarks! '
 task :bench do
   ruby('benchmarks/run-benchmarks.rb')
 end
