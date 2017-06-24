@@ -11,7 +11,7 @@ module ChinaRegion
         attr_accessor :name, :code
 
         def initialize(code:, name:)
-          @code = Match.short_code code
+          @code = code
           @name = name
         end
 
@@ -20,7 +20,7 @@ module ChinaRegion
         end
 
         def self.get(code)
-          name = @@regions[Match.short_code(code)]
+          name = @@regions[code]
           return nil if name.nil?
           new(code: code, name: name)
         end
@@ -40,10 +40,9 @@ module ChinaRegion
             target_type = Type.by_name(method_name)
             return [] if type < target_type
             diff = target_type.number_count - type.number_count
-            clone_regions_index = @@regions_index
             regex = /^#{code}\d{#{diff}}$/
             [].tap do |result|
-              clone_regions_index.grep(regex) do |index_code|
+              @@regions_index.grep(regex) do |index_code|
                 result << self.class.new(code: index_code, name: @@regions[index_code])
               end
             end
@@ -75,9 +74,9 @@ module ChinaRegion
         def self.init_db(*)
           require "csv"
           CSV.foreach(File.join(ChinaRegion.root,"data","db.csv"), headers: true, encoding: "utf-8") do |row|
-            short_code = Match.short_code(row['code'])
-            @@regions[short_code] = row['name']
-            @@regions_index.push(short_code)
+            code = row['code']
+            @@regions[code] = row['name']
+            @@regions_index.push(code)
           end
         end
       end
