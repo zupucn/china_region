@@ -33,7 +33,6 @@ describe ChinaRegion::Match do
   end
 
   it "should get upper level code" do
-    expect(match.upper_level("")).to eq ""
     expect(match.upper_level("43")).to eq ""
     expect(match.upper_level("4301")).to eq "43"
   end
