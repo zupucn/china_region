@@ -14,6 +14,7 @@ module ChinaRegion
         end
 
         def self.get(code)
+          return nil if code.blank?
           name = client.hget(region_key(code), code)
           return nil unless name
           new(name: name, code: code)

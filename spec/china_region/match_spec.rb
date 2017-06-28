@@ -31,4 +31,10 @@ describe ChinaRegion::Match do
     expect(match.type_of("410101001").to_s).to eq "street"
     expect(match.type_of("410101001001").to_s).to eq "community"
   end
+
+  it "should get upper level code" do
+    expect(match.upper_level("")).to eq ""
+    expect(match.upper_level("43")).to eq ""
+    expect(match.upper_level("4301")).to eq "43"
+  end
 end

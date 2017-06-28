@@ -32,6 +32,7 @@ describe ChinaRegion::Region do
       end
 
       it "has parent" do
+        expect(province.parent).to eq nil
         expect(city.parent).to eq province
       end
 
